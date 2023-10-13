@@ -8,7 +8,7 @@ import initializePassport from "./config/passport.config.js";
 import authRouter from "./router/auth.routes.js";
 import viewsRouter from "./router/view.routes.js";
 import { __dirname, connectMongo } from "./utils.js";
-import { errorHandler } from "./middlewares/index.js";
+import { errorHandler, pageNotFound } from "./middlewares/index.js";
 
 const app = express();
 const optSession = {
@@ -30,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter)
 app.use("/", viewsRouter)
+app.use("*", pageNotFound)
 app.use(errorHandler)
 
 

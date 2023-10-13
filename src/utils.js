@@ -24,15 +24,22 @@ export async function connectMongo() {
 //// JSON WEB TOKEN ////
 
 import jwt from "jsonwebtoken";
+import { randomBytes } from "crypto";
 
-export function generateToken(user) {
-	const token = jwt.sign({ user }, config.secretJWT, { expiresIn: "1h" });
-	return token;
+export function generateToken({ doc }) {
+	const key = randomBytes(80).toString("hex");
+	const token = jwt.sign({ doc }, key, { expiresIn: "1h" });
+	return { key, token };
 }
 
-export function verifyToken(token) {
-	const result = jwt.verify(token, config.secretJWT);
-	return result;
+export function verifyToken(token, key) {
+	try {
+		const result = jwt.verify(token, key);
+		return result;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
 }
 
 //// BRCYPT ////
@@ -40,12 +47,12 @@ export function verifyToken(token) {
 import bcrypt from "bcrypt";
 export function createHash(password) {
 	const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-	return passwordHash
+	return passwordHash;
 }
 
-export function isValidPassword(password, hashPassword) {
+export function verifyPassword(password, hashPassword) {
 	const isValid = bcrypt.compareSync(password, hashPassword);
-	return isValid
+	return isValid;
 }
 
 //// NODEMAILER ////

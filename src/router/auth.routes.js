@@ -1,6 +1,7 @@
 import { Router } from "express";
 import AuthController from "../controller/auth.controllers.js";
 import passport from "passport";
+import { recoveryValidationToken } from "../middlewares/index.js";
 
 const authController = new AuthController();
 const router = Router();
@@ -18,7 +19,7 @@ router.post(
 );
 
 router.post("/logout", authController.logout);
-router.post("/reset/sendmail", authController.recoveryPassword);
-router.post("/reset/new-password", authController.newPassword);
+router.post("/reset/sendmail", authController.sendEmailToRecovery);
+router.post("/reset/new-password", recoveryValidationToken, authController.newPassword);
 
 export default router;

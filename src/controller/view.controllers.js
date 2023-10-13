@@ -22,11 +22,22 @@ export default class ViewController {
 		res.render("recovery-sendmail");
 	}
 
+	renderSuccess(req, res) {
+		let message = req.session.message
+		if(message) {
+			if(message.sendMail || message.resetSuccess) {
+				return res.render("success", { message: req.session.message });
+			}
+		}
+		res.redirect("/")
+	}
+
 	recoveryWithToken(req, res) {
-		res.render("new-password");
+		const { token, key, email } = req.query
+		res.render("new-password", { username: req.username, token, key, email } );
 	}
 
 	renderError(req, res) {
-		res.render("error", { message: req.session.error })
+		res.render("error", { error: req.session.error })
 	} 
 }
