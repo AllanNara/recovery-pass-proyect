@@ -1,0 +1,18 @@
+<div style="display: flex; justify-content: space-between">
+	<h1>¡Bienvenido {{user.name}}!</h1>
+	<form action="/api/auth/logout" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+</div>
+<h2>Tus datos de usuario son:</h2>
+<div>
+	<ul>
+		<li>Email: {{user.email}}</li>
+		<br />
+		<li>Rol: {{user.role}}</li>
+	</ul>
+</div>
+
+<div style="text-align: end">
+	<a href="/about">...Sobre la página</a>
+</div>
