@@ -39,11 +39,13 @@ export function verifyToken(token) {
 
 import bcrypt from "bcrypt";
 export function createHash(password) {
-	bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+	const passwordHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+	return passwordHash
 }
 
 export function isValidPassword(password, hashPassword) {
-	bcrypt.compareSync(password, hashPassword);
+	const isValid = bcrypt.compareSync(password, hashPassword);
+	return isValid
 }
 
 //// NODEMAILER ////
@@ -61,10 +63,10 @@ export const transport = nodemailer.createTransport({
 
 //// FAKE USER ////
 
-export const fakeUser = {
-	first_name: "John",
-	last_name: "Doe",
-	email: "johndoe@mail.com",
-	role: "admin",
-	password: "unodoscuatro",
-};
+// export const fakeUser = {
+// 	first_name: "John",
+// 	last_name: "Doe",
+// 	email: "johndoe@mail.com",
+// 	role: "admin",
+// 	password: "unodoscuatro",
+// };

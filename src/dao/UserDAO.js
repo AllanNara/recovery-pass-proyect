@@ -10,7 +10,7 @@ export default class UserDAO {
       const user = await this.model.findOne({ email });
       return user  
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return null
     }
   }
@@ -20,7 +20,7 @@ export default class UserDAO {
       const user = await this.model.findById(id);
       return user  
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return null
     }
   }
@@ -30,7 +30,7 @@ export default class UserDAO {
       const user = await this.model.create(obj);
       return user  
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return null
     }
   } 
@@ -40,7 +40,7 @@ export default class UserDAO {
       const updateUser = await this.model.findByIdAndUpdate(id, user, { new: true });
       return updateUser  
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return null
     }
   }
@@ -50,7 +50,7 @@ export default class UserDAO {
       const deleted = await this.model.findByIdAndDelete(id);
       return deleted
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return null
     }
   }

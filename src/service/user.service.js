@@ -18,7 +18,7 @@ export default class UserService {
 
 	async readUser(id) {
 		try {
-			const user = await this.dao.get(id);
+			const user = await this.dao.read(id);
 			return user;
 		} catch (error) {
 			console.error(error);
@@ -26,10 +26,9 @@ export default class UserService {
 		}
 	}
 
-	async createUser({ first_name, last_name, email, password, role }) {
+	async createUser({ first_name, last_name, email, password, role = "user"}) {
 		try {
 			const existingUser = await this.dao.get(email);
-
 			if (existingUser) return null
 
 			const hashedPassword = createHash(password);
@@ -41,6 +40,7 @@ export default class UserService {
 				role,
 			});
 			return userCreated;
+
 		} catch (error) {
 			console.error(error);
 			return null;

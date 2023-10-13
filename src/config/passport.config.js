@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { userService } from "../service/repository/index.js";
-import { fakeUser } from "../utils.js";
 
 
 const initializePassport = () => {
@@ -10,14 +9,14 @@ const initializePassport = () => {
     usernameField: "email",
   }, async (req, username, password, done) => {
     try {
-      const user = userService.authUser(username, password);
+      const user = await userService.authUser(username, password);
       if(!user) {
         req.session.error = "Invalid credentials"
         return done(null, false)
       } 
-      return done(null, fakeUser)
+      return done(null, user)
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return done(error)
     }
   }));
@@ -27,28 +26,28 @@ const initializePassport = () => {
     passReqToCallback: true
   }, async (req, username, password, done) => {
     try {
-      const registered = userService.createUser(req)
+      const registered = await userService.createUser(req.body)
       if(!registered) {
         req.session.error = "Email alredy in use"
         return done(null, false)
       } else console.log("User registered")
       return done(null, registered)
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return done(error)
     }
   }))
 
   passport.serializeUser((user, done) => {
-    return done(null, user)
+    return done(null, user._id)
   });
   
-  passport.deserializeUser(async (user, done) => {
+  passport.deserializeUser(async (id, done) => {
     try {
-      // const user = await userService.readUser(id)
-      return user
+      const user = await userService.readUser(id)
+      return done(null, user)
     } catch (error) {
-      console.log(error);
+      console.log({error});
       return done(error)
     }
   });

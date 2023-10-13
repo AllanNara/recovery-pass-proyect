@@ -24,8 +24,15 @@ export function isNotLogged(req, res, next) {
 // 	next();
 // }
 
+export function existError(req, res, next) {
+	if(!req.session.error) {
+		res.redirect("/")
+	}
+	next()
+}
+
 export function errorHandler(error, req, res, next) {
-	console.log(error);
+	console.log({error});
 	res.status(500).json({
 		status: "error",
 		code: error.code || 500,

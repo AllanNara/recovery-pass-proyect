@@ -16,6 +16,7 @@ router.post(
 	passport.authenticate("register", { failureRedirect: "/error-auth" }),
 	authController.register
 );
+
 router.post("/logout", authController.logout);
 router.post("/reset/sendmail", authController.recoveryPassword);
 router.post("/reset/new-password", authController.newPassword);
