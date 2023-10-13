@@ -36,7 +36,7 @@ export default class AuthController {
 		try {
 			const user = await userService.searchUserByEmail(req.query.email);
 			if (password !== passwordConfirm) {
-				req.session.error = "Fields 'password' and 'confirm password' isn't equal";
+				req.session.error = "Fields 'password' and 'confirm password' aren't equal";
 				return res.redirect("/error-auth");
 			}
 			if (verifyPassword(password, user.password)) {

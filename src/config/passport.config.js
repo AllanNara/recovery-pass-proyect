@@ -11,7 +11,7 @@ const initializePassport = () => {
     try {
       const user = await userService.authUser(username, password);
       if(!user) {
-        req.session.error = "Invalid credentials"
+        req.session.error = "Invalid credentials, please check your email or password"
         return done(null, false)
       } 
       return done(null, user)
